@@ -1,0 +1,108 @@
+{
+  "subscriptions": [
+    {
+      "id": "1768365950525",
+      "userId": "admin",
+      "name": "itdog.cn",
+      "type": "测试",
+      "startDate": "2025-10-12",
+      "expireDate": "2026-02-12",
+      "url": "https://itdog.cn/",
+      "iconUrl": "https://ico.faviconkit.net/favicon/itdog.cn?sz=64",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    },
+    {
+      "id": "1768372013726",
+      "userId": "admin",
+      "name": "qq.com",
+      "type": "域名",
+      "startDate": "2021-01-14",
+      "expireDate": "2028-05-14",
+      "url": "https://qq.com",
+      "iconUrl": "https://ico.faviconkit.net/favicon/qq.com?sz=64",
+      "note": "",
+      "notifyDays": 30,
+      "isNotified": false
+    },
+    {
+      "id": "1768372845513",
+      "userId": "admin",
+      "name": "youtube.com",
+      "type": "域名",
+      "startDate": "2005-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://youtube.com",
+      "iconUrl": "https://ico.faviconkit.net/favicon/youtube.com?sz=64",
+      "note": "",
+      "notifyDays": 10,
+      "isNotified": false
+    },
+    {
+      "id": "1768372898046",
+      "userId": "admin",
+      "name": "google.com",
+      "type": "博客",
+      "startDate": "2023-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://google.com",
+      "iconUrl": "https://google.com/favicon.ico",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    },
+    {
+      "id": "1768373479265",
+      "userId": "admin",
+      "name": "chatgpt.com",
+      "type": "工具",
+      "startDate": "2003-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://chatgpt.com",
+      "iconUrl": "https://ico.faviconkit.net/favicon/chatgpt.com?sz=64",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    },
+    {
+      "id": "1768373580502",
+      "userId": "admin",
+      "name": "digitalplat",
+      "type": "域名",
+      "startDate": "2000-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://domain.digitalplat.org",
+      "iconUrl": "https://ico.faviconkit.net/favicon/domain.digitalplat.org?sz=64",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    },
+    {
+      "id": "1768373595737",
+      "userId": "admin",
+      "name": "cloudflare.com",
+      "type": "视频",
+      "startDate": "2016-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://cloudflare.com",
+      "iconUrl": "https://ico.faviconkit.net/favicon/cloudflare.com?sz=64",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    },
+    {
+      "id": "1768373615024",
+      "userId": "admin",
+      "name": "gemini",
+      "type": "邮箱",
+      "startDate": "2024-01-14",
+      "expireDate": "2027-01-14",
+      "url": "https://gemini.google.com",
+      "iconUrl": "https://ico.faviconkit.net/favicon/gemini.google.com?sz=64",
+      "note": "",
+      "notifyDays": 7,
+      "isNotified": false
+    }
+  ]
+}

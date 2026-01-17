@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NodeManager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=113">
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand"><i class="fas fa-layer-group"></i> <span>NodeManager</span></div>
+        <div class="nav-menu">
+            <button class="nav-btn" onclick="triggerImport()" title="导入配置"><i class="fas fa-file-import"></i></button>
+            <button class="nav-btn" onclick="exportConfig()" title="导出配置"><i class="fas fa-file-export"></i></button>
+
+            <button class="nav-btn" onclick="openSearch()" title="搜索"><i class="fas fa-search"></i></button>
+            <button class="nav-btn" onclick="openCalendar()" title="日历"><i class="fas fa-calendar-alt"></i></button>
+            
+            <button class="nav-btn" onclick="openNotifyModal()" title="通知设置">
+                <i class="fas fa-bell"></i>
+            </button>
+            
+            <div class="theme-dropdown">
+                <button class="nav-btn" onclick="toggleThemeMenu()" title="外观设置">
+                    <i class="fas fa-sun"></i>
+                </button>
+                <div id="themeMenu" class="theme-menu">
+                    <div class="theme-option" onclick="setTheme('system')" data-mode="system">
+                        <span><div class="theme-option-icon"><i class="fas fa-desktop"></i></div> 跟随系统</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('light')" data-mode="light">
+                        <span><div class="theme-option-icon"><i class="fas fa-sun"></i></div> 亮色模式</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                    <div class="theme-option" onclick="setTheme('dark')" data-mode="dark">
+                        <span><div class="theme-option-icon"><i class="fas fa-moon"></i></div> 暗色模式</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-btn btn-primary-nav" onclick="openModal()" title="新增"><i class="fas fa-plus"></i></button>
+            <button class="nav-btn btn-logout" onclick="logout()" title="退出"><i class="fas fa-power-off"></i></button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="overview-header">
+            <h2 class="overview-title">概览</h2>
+            <div class="overview-time" id="overviewTime">--:--</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-dot dot-blue"></div>
+                    <h3 class="stat-title">订阅总数</h3>
+                </div>
+                <div class="stat-value text-blue" id="statTotal">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-dot dot-green"></div>
+                    <h3 class="stat-title">正常状态</h3>
+                </div>
+                <div class="stat-value text-green" id="statNormal">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-dot dot-orange"></div>
+                    <h3 class="stat-title">即将到期</h3>
+                </div>
+                <div class="stat-value text-orange" id="statExpiring30">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-left">
+                    <div class="stat-dot dot-red"></div>
+                    <h3 class="stat-title">已过期</h3>
+                </div>
+                <div class="stat-value text-red" id="statExpired">0</div>
+            </div>
+        </div>
+
+        <div class="filter-wrapper">
+            <div class="type-filter-bar" id="typeFilter"></div>
+        </div>
+        
+        <div class="subs-grid" id="subGrid"></div>
+    </div>
+
+    <div id="addModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>新增订阅</h3>
+                <div class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></div>
+            </div>
+            <form id="addSubForm">
+                <div class="form-grid">
+                    <div class="input-group full-width">
+                        <label>名称</label>
+                        <input type="text" id="subName" required placeholder="订阅名称">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>类型</label>
+                        <input type="text" id="subType" list="typeList" placeholder="类型名称">
+                    </div>
+                    <div class="input-group">
+                        <label>备注</label>
+                        <input type="text" id="subNote" placeholder="备注信息">
+                    </div>
+
+                    <div class="input-group">
+                        <label>循环周期（功能未生效）</label>
+                        <select id="subRepeat">
+                            <option value="never">不循环</option>
+                            <option value="daily">每天</option>
+                            <option value="weekly">每周</option>
+                            <option value="monthly">每月</option>
+                            <option value="yearly">每年</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>提醒阈值 (天)</label>
+                        <input type="number" id="subNotifyDays" value="7" min="1" max="365">
+                    </div>
+
+                    <div class="input-group">
+                        <label>开始日期</label>
+                        <input type="date" id="subStartDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label>到期日期</label>
+                        <input type="date" id="subExpireDate" required>
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label>链接地址</label>
+                        <input type="text" id="subUrl" placeholder="https://example.com">
+                    </div>
+                    
+                    <div class="input-group full-width">
+                        <label>图标地址</label>
+                        <input type="text" id="subIconUrl" placeholder="https://example.png">
+                    </div>
+                    
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn-submit">保存订阅</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="renewModal" class="modal-overlay">
+        <div class="modal-content renew-modal-content">
+            <div class="renew-header">
+                <i class="fas fa-history"></i> <span id="renewName">订阅续期</span>
+            </div>
+            
+            <div class="renew-info-simple">
+                <div class="renew-title-text" id="renewUnitLabel">--</div>
+            </div>
+
+            <div class="renew-layout-stack">
+                <div class="renew-row-top">
+                    <span class="renew-label-sm">调整单位</span>
+                    <div class="unit-selector">
+                        <button class="unit-btn active" onclick="setRenewUnit('year', this)">年</button>
+                        <button class="unit-btn" onclick="setRenewUnit('month', this)">月</button>
+                        <button class="unit-btn" onclick="setRenewUnit('day', this)">日</button>
+                    </div>
+                </div>
+                
+                <div class="renew-row-top">
+                     <span class="renew-label-sm">快速调整</span>
+                     <div class="renew-counter-mini">
+                        <button class="mini-btn" onclick="adjustRenewDate(-1)"><i class="fas fa-minus"></i></button>
+                        <span class="mini-label">调整到期日</span>
+                        <button class="mini-btn" onclick="adjustRenewDate(1)"><i class="fas fa-plus"></i></button>
+                     </div>
+                </div>
+                
+                <div class="renew-row-bottom">
+                    <div class="input-stack">
+                         <span class="renew-label-sm">起始日 <span style="opacity:0.5">(不变)</span></span>
+                         <input type="date" id="renewStartDatePicker" class="renew-date-input" readonly>
+                    </div>
+                    <div class="input-stack">
+                         <span class="renew-label-sm text-green-label">新到期日</span>
+                         <input type="date" id="renewDatePicker" class="renew-date-input highlight-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-cancel" onclick="closeRenewModal()">取消</button>
+                <button type="button" class="btn-submit btn-green" onclick="submitRenew()">确认续期</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notifyModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>通知设置</h3>
+                <div class="close-btn" onclick="closeNotifyModal()"><i class="fas fa-times"></i></div>
+            </div>
+
+            <div class="form-grid" style="grid-template-columns: 1fr;">
+                <div class="input-group">
+                    <label>Telegram Bot Token</label>
+                    <input type="text" id="tgToken" placeholder="例如: 123456789:ABCdef...">
+                </div>
+                <div class="input-group">
+                    <label>Telegram Chat ID</label>
+                    <input type="text" id="tgChatId" placeholder="例如: 123456789">
+                </div>
+            </div>
+            <div class="modal-actions" style="grid-template-columns: repeat(3, 1fr);">
+                <button type="button" class="btn-cancel" onclick="closeNotifyModal()">取消</button>
+                <button type="button" class="btn-test" onclick="testNotify()">测试</button>
+                <button type="button" class="btn-submit" onclick="saveNotifySettings()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="searchModal" class="modal-overlay">
+        <div class="search-modal-content">
+            <div class="search-header-bar">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="搜索订阅名称、类型..." autocomplete="off">
+                <button class="close-search-btn" onclick="closeSearch()" title="关闭"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="search-results-list" id="searchResults"></div>
+        </div>
+    </div>
+
+    <div id="calendarModal" class="modal-overlay">
+        <div class="modal-content calendar-modal-content">
+            <div class="calendar-wrapper">
+                <div class="calendar-nav">
+                    <div class="nav-arrow" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></div>
+                    <div class="current-month-label" id="calMonthLabel">2026年 1月</div>
+                    <div class="nav-arrow" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></div>
+                </div>
+                <div class="calendar-header-row">
+                    <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+            
+            <div class="calendar-footer-info">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <div class="selected-date-title" id="selDateTitle">详情</div>
+                    <button class="cal-today-btn" onclick="jumpToToday()">回到今天</button>
+                </div>
+                <div class="selected-list" id="selDateList"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importFile" accept=".json" style="display: none;">
+    <script src="js/index.js?v=113"></script>
+</body>
+</html>

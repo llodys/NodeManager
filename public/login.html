@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NodeManager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css?v=98">
+</head>
+<body class="login-page-body">
+
+    <nav class="login-nav">
+        <div class="login-brand"><i class="fas fa-layer-group"></i> <span>NodeManager</span></div>
+        <div class="login-actions">
+            <div class="theme-dropdown">
+                <button class="theme-toggle-btn" onclick="toggleLoginThemeMenu()" title="切换主题">
+                    <i id="loginThemeIcon" class="fas fa-sun"></i>
+                </button>
+                <div id="loginThemeMenu" class="theme-menu">
+                    <div class="theme-option" onclick="setLoginTheme('system')" data-mode="system">
+                        <span><i class="fas fa-desktop theme-option-icon"></i> 跟随系统</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                    <div class="theme-option" onclick="setLoginTheme('light')" data-mode="light">
+                        <span><i class="fas fa-sun theme-option-icon"></i> 亮色</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                    <div class="theme-option" onclick="setLoginTheme('dark')" data-mode="dark">
+                        <span><i class="fas fa-moon theme-option-icon"></i> 暗色</span>
+                        <i class="fas fa-check theme-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-headings">
+                <h1>欢迎回来</h1>
+                <div class="current-time" id="loginTime">--:--</div>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>账号</label>
+                    <input type="text" id="username" placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label>密码</label>
+                    <input type="password" id="password" placeholder="请输入密码" required>
+                </div>
+                
+                <button type="submit" class="btn-black">登 录</button>
+            </form>
+
+            <div class="copyright">
+                &copy; 2026 NodeManager
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const btn = this.querySelector('button');
+            
+            btn.innerText = '登录中...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.message || '账号或密码错误');
+                    btn.innerText = '登 录';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error(err);
+                alert('连接服务器失败');
+                btn.innerText = '登 录';
+                btn.disabled = false;
+            }
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const timeStr = `当前时间 ${now.toLocaleTimeString('zh-CN', {hour12: false})}`;
+            document.getElementById('loginTime').innerText = timeStr;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        function initLoginTheme() {
+            const saved = localStorage.getItem('theme') || 'system';
+            setLoginTheme(saved);
+        }
+
+        function toggleLoginThemeMenu() {
+            document.getElementById('loginThemeMenu').classList.toggle('show');
+        }
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.theme-dropdown')) {
+                const menu = document.getElementById('loginThemeMenu');
+                if (menu && menu.classList.contains('show')) {
+                    menu.classList.remove('show');
+                }
+            }
+        });
+
+        function setLoginTheme(mode) {
+            localStorage.setItem('theme', mode);
+            
+            let effective = mode;
+            if (mode === 'system') {
+                effective = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+
+            document.documentElement.setAttribute('data-theme', effective);
+            
+            const icon = document.getElementById('loginThemeIcon');
+            if(icon) icon.className = effective === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+
+            document.querySelectorAll('.theme-option').forEach(o => {
+                o.classList.remove('active');
+                if(o.dataset.mode === mode) o.classList.add('active');
+            });
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if(localStorage.getItem('theme') === 'system') {
+                setLoginTheme('system');
+            }
+        });
+
+        initLoginTheme();
+    </script>
+</body>
+</html>
