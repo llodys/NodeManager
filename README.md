@@ -18,6 +18,16 @@
 * **📅 日历视图**：提供月视图日历，直观查看每日的开始或到期项目，支持农历显示。
 * **💾 轻量化存储**：使用本地 JSON 文件存储数据，无需安装 MySQL 或 MongoDB，备份迁移极其简单。
 
+## 🌐 在线演示 (Demo)
+
+你可以通过以下地址快速体验 NodeManager 的功能：
+
+* **演示地址**：[https://nodenanager.zeabur.app/](https://nodenanager.zeabur.app/)
+* **演示用户名**：`admin`
+* **演示密码**：`admin`
+
+> **提示**：演示环境仅供功能展示，请勿上传真实敏感的订阅信息。
+
 ## 🛠️ 技术栈
 
 * **后端**：Node.js, Express
