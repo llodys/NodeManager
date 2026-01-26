@@ -1,5 +1,5 @@
 {
-  "name": "nodenanager",
+  "name": "nodemanager",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
