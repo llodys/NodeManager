@@ -1,8 +1,8 @@
 # NodeManager - 个人订阅管理助手
 
-**NodeManager** 是一个轻量级、自托管的订阅管理系统，基于 Node.js 和原生前端技术构建。它可以帮助你集中管理各类服务（如 Netflix、Spotify、服务器、域名等）的续费周期，并通过 Telegram 机器人每日自动推送即将到期的提醒，防止服务中断。
+* **NodeManager是一个轻量级、自托管的订阅管理系统，基于 Node.js 和原生前端技术构建。它可以帮助你集中管理各类服务（如 Netflix、Spotify、服务器、域名等）的续费周期，并通过 Telegram 机器人每日自动推送即将到期的提醒，防止服务中断。
 
-本项目由Ai代写，还有很多功能没有完善，请谅解，谢谢！
+* **本项目由Ai代写，还有很多功能没有完善，请谅解，谢谢！
 
 ![Dashboard Preview](public/images/preview.png)
 
