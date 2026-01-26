@@ -24,7 +24,7 @@
 
 你可以通过以下地址快速体验 NodeManager 的功能：
 
-* **演示地址**：[https://nodenanager.zeabur.app/](https://nodenanager.zeabur.app/)
+* **演示地址**：[https://nodemanager.zeabur.app/](https://nodemanager.zeabur.app/)
 * **演示用户名**：`admin`
 * **演示密码**：`admin`
 
