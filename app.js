@@ -19,8 +19,9 @@ const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
 process.env.ADMIN_USER = process.env.ADMIN_USER || 'admin';
 process.env.ADMIN_PASS = process.env.ADMIN_PASS || 'admin';
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'default_secret_key_123';
-process.env.TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
-process.env.TELEGRAM_ADMIN_ID = process.env.TELEGRAM_ADMIN_ID || '';
+process.env.TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '123456789:ABCdefGhIJKlmNoPQRsTUVwxyZ
+';
+process.env.TELEGRAM_ADMIN_ID = process.env.TELEGRAM_ADMIN_ID || '123456789';
 process.env.HTTP_PROXY = process.env.HTTP_PROXY || '';
 
 const authRoutes = require('./routes/authRoutes');
